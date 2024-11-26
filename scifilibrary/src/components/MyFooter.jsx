@@ -3,6 +3,8 @@ import { Container, Row, Col, Nav } from 'react-bootstrap';
 
 function MyFooter() {
   return (
+    // mt-auto: spinge il footer in fondo alla pagina
+    // py-4: padding verticale
     <footer className="bg-dark text-white py-4 mt-auto">
       <Container>
         <Row>
