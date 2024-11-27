@@ -1,25 +1,35 @@
+// Importo gli stili CSS necessari
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+// Importo i componenti personalizzati
 import MyNavbar from './components/MyNavbar';
 import MyFooter from './components/MyFooter';
 import Welcome from './components/Welcome';
-import AllTheBooks from './components/AllTheBooks';
+import BookList from './components/BookList';
 
+// Importo i dati dei libri dal file JSON
+import scifiBooks from './librarydata/scifi.json';
+
+// Componente principale dell'applicazione
 function App() {
   return (
-    //d-flex flex-column: crea un layout flessibile a colonna
-    //min-vh-100: assicura che il layout occupi almeno l'intera altezza della finestra
+    // Contenitore principale con layout flessibile e altezza minima viewport
     <div className="App d-flex flex-column min-vh-100">
-      {/* componente navbar */}
+      {/* Barra di navigazione */}
       <MyNavbar />
-      {/* componente welcome */}
+      {/* Componente di benvenuto */}
       <Welcome />
-      {/* componente allthebooks */}
-      <AllTheBooks />
-      {/* componente footer */}
+      {/* Contenitore principale con margini */}
+      <div className="container my-4">
+        {/* Lista dei libri con passaggio dei dati come props */}
+        <BookList books={scifiBooks} />
+      </div>
+      {/* Footer dell'applicazione */}
       <MyFooter />
     </div>
   );
 }
 
+// Esporto il componente App
 export default App;
