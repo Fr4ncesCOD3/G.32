@@ -7,10 +7,10 @@ import CommentArea from './CommentArea';
 class SingleBook extends React.Component {
   // Stato iniziale del componente:
   // - showModal: controlla la visibilità del modal
-  // - selected: indica se il libro è selezionato per mostrare i commenti
+  // - showComments: gestisce la visualizzazione dei commenti
   state = {
     showModal: false,
-    selected: false
+    showComments: false
   };
 
   // Metodo che inverte lo stato del modal e della selezione
@@ -18,14 +18,14 @@ class SingleBook extends React.Component {
   toggleModal = () => {
     this.setState(prevState => ({
       showModal: !prevState.showModal,
-      selected: !prevState.selected
+      showComments: !prevState.showModal
     }));
   };
 
   render() {
     // Estrae le props e lo state necessari per il rendering
     const { book } = this.props;
-    const { showModal, selected } = this.state;
+    const { showModal, showComments } = this.state;
 
     // Renderizza il componente con una card e un modal
     return (
@@ -112,8 +112,8 @@ class SingleBook extends React.Component {
                     </div>
                   </div>
                   
-                  {/* Area commenti - visibile solo quando il libro è selezionato */}
-                  {selected && (
+                  {/* Area commenti - caricata solo quando necessario */}
+                  {showComments && (
                     <div className="mt-4">
                       <CommentArea asin={book.asin} />
                     </div>
