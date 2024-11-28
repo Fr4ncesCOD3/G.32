@@ -24,6 +24,9 @@ const BookList = ({ books }) => {
             type="text"
             placeholder="Cerca un libro per titolo"
             value={searchTerm}
+            //onChange gestisce l'evento di modifica dell'input;
+            //e.target.value è il valore corrente dell'input
+            //(e) è l'evento che si verifica quando l'utente modifica l'input
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Form.Group>
