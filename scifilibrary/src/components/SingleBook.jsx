@@ -3,38 +3,41 @@ import React from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
 import CommentArea from './CommentArea';
 
-// Componente classe che rappresenta un singolo libro nella libreria
+/**
+ * SingleBook - Componente classe che rappresenta un singolo libro nella libreria
+ * Gestisce la visualizzazione di una card con le informazioni base del libro
+ * e un modal con dettagli aggiuntivi e area commenti
+ */
 class SingleBook extends React.Component {
   // Stato iniziale del componente:
-  // - showModal: controlla la visibilità del modal
-  // - showComments: gestisce la visualizzazione dei commenti
+  // - showModal: controlla la visibilità del modal (true = visibile, false = nascosto)
   state = {
-    showModal: false,
-    showComments: false
+    showModal: false
   };
 
-  // Metodo che inverte lo stato del modal e della selezione
-  // Viene chiamato quando l'utente clicca sulla card del libro
+  /**
+   * toggleModal - Inverte lo stato del modal tra visibile e nascosto
+   * Viene chiamato quando l'utente clicca sulla card del libro o sui pulsanti di chiusura
+   */
   toggleModal = () => {
     this.setState(prevState => ({
-      showModal: !prevState.showModal,
-      showComments: !prevState.showModal
+      showModal: !prevState.showModal
     }));
   };
 
   render() {
-    // Estrae le props e lo state necessari per il rendering
-    const { book } = this.props;
-    const { showModal, showComments } = this.state;
+    // Destrutturazione delle props necessarie per il rendering
+    const { book, selected, onClick } = this.props;
+    const { showModal } = this.state;
 
-    // Renderizza il componente con una card e un modal
     return (
       <>
         {/* Card principale che mostra le informazioni base del libro */}
+        {/* La classe border-danger viene aggiunta quando il libro è selezionato */}
         <Card 
-          className="h-100 shadow bg-light"
-          onClick={this.toggleModal} // Attiva il modal al click
-          style={{ cursor: 'pointer' }} // Indica che è cliccabile
+          className={`h-100 ${selected ? 'border-danger' : ''}`}
+          onClick={onClick} // Gestisce la selezione del libro
+          style={{ cursor: 'pointer' }} // Cambia il cursore per indicare che è cliccabile
         >
           {/* Container per l'immagine di copertina con altezza fissa */}
           <div className="position-relative" style={{ height: '350px' }}>
@@ -45,18 +48,20 @@ class SingleBook extends React.Component {
               style={{ 
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover' // Mantiene le proporzioni dell'immagine
+                objectFit: 'cover' // Mantiene le proporzioni dell'immagine riempiendo lo spazio
               }}
             />
           </div>
           {/* Corpo della card con titolo e prezzo */}
           <Card.Body className="d-flex flex-column">
+            {/* Titolo del libro troncato se troppo lungo */}
             <Card.Title 
               className="text-truncate mb-3 fw-bold text-dark"
               style={{ fontSize: '1rem' }}
             >
-              {book.title} {/* Titolo troncato se troppo lungo */}
+              {book.title}
             </Card.Title>
+            {/* Contenitore del prezzo allineato in basso */}
             <div className="mt-auto">
               <Card.Text className="mb-3">
                 {/* Prezzo formattato con due decimali */}
@@ -68,7 +73,7 @@ class SingleBook extends React.Component {
           </Card.Body>
         </Card>
 
-        {/* Modal con dettagli del libro - appare solo quando showModal è true */}
+        {/* Modal con dettagli del libro - renderizzato solo quando showModal è true */}
         {showModal && (
           <Modal 
             show={showModal} 
@@ -77,14 +82,14 @@ class SingleBook extends React.Component {
             centered
             contentClassName="bg-dark text-light"
           >
-            {/* Header del modal con titolo del libro */}
+            {/* Header del modal con titolo del libro e pulsante di chiusura */}
             <Modal.Header closeButton className="border-secondary">
               <Modal.Title className="text-light">{book.title}</Modal.Title>
             </Modal.Header>
             {/* Corpo del modal con layout a due colonne */}
             <Modal.Body className="py-4">
               <div className="row">
-                {/* Colonna sinistra con immagine di copertina */}
+                {/* Colonna sinistra (4/12) con immagine di copertina */}
                 <div className="col-md-4">
                   <img 
                     src={book.img} 
@@ -93,13 +98,14 @@ class SingleBook extends React.Component {
                     style={{ width: '100%', objectFit: 'cover' }}
                   />
                 </div>
-                {/* Colonna destra con dettagli e area commenti */}
+                {/* Colonna destra (8/12) con dettagli e area commenti */}
                 <div className="col-md-8">
                   {/* Card con prezzo e dettagli del libro */}
                   <div className="card bg-dark text-light border-secondary p-3">
                     <h4 className="text-primary mb-3">
                       Prezzo: €{book.price.toFixed(2)}
                     </h4>
+                    {/* Informazioni aggiuntive: ASIN e categoria */}
                     <div className="mb-3">
                       <p className="mb-2">
                         <span className="text-secondary">ASIN: </span>
@@ -112,8 +118,8 @@ class SingleBook extends React.Component {
                     </div>
                   </div>
                   
-                  {/* Area commenti - caricata solo quando necessario */}
-                  {showComments && (
+                  {/* Area commenti - visibile solo quando il libro è selezionato */}
+                  {selected && (
                     <div className="mt-4">
                       <CommentArea asin={book.asin} />
                     </div>
@@ -137,5 +143,5 @@ class SingleBook extends React.Component {
   }
 }
 
-// Esporta il componente per utilizzarlo nell'app
+// Esporta il componente per utilizzarlo in altre parti dell'applicazione
 export default SingleBook;

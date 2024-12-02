@@ -1,19 +1,23 @@
+/* Stile principale del contenitore App */
 .App {
   text-align: center;
-  padding-top: 56px;
+  padding-top: 56px; /* Spazio per la navbar fissa */
 }
 
+/* Stile del logo dell'applicazione */
 .App-logo {
   height: 40vmin;
-  pointer-events: none;
+  pointer-events: none; /* Disabilita interazioni col logo */
 }
 
+/* Animazione del logo solo se l'utente non ha preferenze di riduzione movimento */
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
+/* Stile dell'header principale */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -25,15 +29,73 @@
   color: white;
 }
 
+/* Stile dei link nell'app */
 .App-link {
   color: #61dafb;
 }
 
+/* Definizione dell'animazione di rotazione del logo */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Contenitore dei commenti con posizione sticky */
+.comments-container {
+  min-height: 400px;
+  max-height: 90vh;
+  position: sticky;
+  top: 1rem;
+  scroll-margin-top: 80px; /* Margine per lo scroll */
+}
+
+/* Area scrollabile dei commenti */
+.comments-scroll {
+  max-height: calc(80vh - 100px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #333; /* Colori della scrollbar per Firefox */
+}
+
+/* Personalizzazione scrollbar per Chrome/Safari */
+.comments-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comments-scroll::-webkit-scrollbar-track {
+  background: #333;
+  border-radius: 4px;
+}
+
+.comments-scroll::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 4px;
+}
+
+/* Gestione del testo nei commenti */
+.list-group-item {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap; /* Mantiene la formattazione del testo */
+}
+
+/* Stili responsive per dispositivi mobili */
+@media (max-width: 767.98px) {
+  .comments-container {
+    max-height: 80vh;
+    overflow-y: auto;
+    margin-top: 1rem;
+  }
+
+  .comments-container.show {
+    max-height: 80vh;
+  }
+
+  .comments-header {
+    scroll-margin-top: 80px; /* Margine per lo scroll su mobile */
   }
 }
