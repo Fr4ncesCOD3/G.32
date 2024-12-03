@@ -1,70 +1,57 @@
-// Importazione delle dipendenze necessarie da React e React Bootstrap
+// Importazione delle dipendenze necessarie
 import React from 'react';
-import { ListGroup, Button } from 'react-bootstrap';
+import { ListGroup, Button } from 'react-bootstrap'; // Componenti UI di Bootstrap
 
-/**
- * SingleComment - Componente classe che gestisce la visualizzazione e cancellazione di un singolo commento
- * Props:
- * - comment: oggetto contenente i dati del commento (testo, valutazione, id)
- * - onCommentDeleted: callback da chiamare quando un commento viene eliminato con successo
- */
-class SingleComment extends React.Component {
-  /**
-   * deleteComment - Metodo asincrono per eliminare un commento dal server
-   * Effettua una richiesta DELETE all'API utilizzando l'ID del commento
-   * In caso di successo, notifica il componente padre attraverso la callback onCommentDeleted
-   */
-  deleteComment = async () => {
+// Componente SingleComment che mostra un singolo commento
+// Props:
+// - comment: oggetto contenente i dati del commento 
+// - onCommentDeleted: callback chiamata quando un commento viene eliminato
+const SingleComment = ({ comment, onCommentDeleted }) => {
+  // Funzione per eliminare il commento
+  const deleteComment = async () => {
     try {
-      // Effettua una richiesta DELETE all'API con l'ID del commento
+      // Chiamata API per eliminare il commento
       const response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/comments/${this.props.comment._id}`,
+        `https://striveschool-api.herokuapp.com/api/comments/${comment._id}`,
         {
           method: 'DELETE',
           headers: {
-            // Token di autorizzazione necessario per l'autenticazione con l'API
             Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzQ4Njk5NjA2ZmM4YzAwMTU2Yjg2ZWIiLCJpYXQiOjE3MzI3OTg4NzAsImV4cCI6MTczNDAwODQ3MH0.cMoFL5VdMuduVlORWJQDnb_nhdUhz00n1BSK3Jh7sAk"
           }
         }
       );
-      // Se la richiesta ha successo, notifica il componente padre per aggiornare la lista
+      // Se l'eliminazione ha successo, notifica il componente padre
       if (response.ok) {
-        this.props.onCommentDeleted();
+        onCommentDeleted();
       }
     } catch (error) {
-      // Log degli errori durante la cancellazione per il debugging
       console.error('Errore nella cancellazione del commento:', error);
     }
   };
 
-  render() {
-    // Destrutturazione delle props per accedere facilmente ai dati del commento
-    const { comment } = this.props;
-    
-    return (
-      // ListGroup.Item con layout flessibile per allineare contenuto e pulsante
-      <ListGroup.Item className="d-flex justify-content-between align-items-start">
-        {/* Contenitore del testo del commento e della valutazione */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          {/* Testo del commento con gestione del word-break per testi lunghi */}
-          <p className="mb-1" style={{ wordBreak: 'break-word' }}>{comment.comment}</p>
-          {/* Valutazione visualizzata con stelle, ripetute in base al valore numerico */}
-          <small className="text-muted">
-            Valutazione: {'⭐'.repeat(comment.rate)}
-          </small>
-        </div>
-        {/* Pulsante per eliminare il commento */}
-        <Button 
-          variant="outline-danger" 
-          size="sm"
-          onClick={this.deleteComment}
-        >
-          Elimina
-        </Button>
-      </ListGroup.Item>
-    );
-  }
-}
+  // Rendering del commento con layout flessibile
+  return (
+    <ListGroup.Item className="d-flex justify-content-between align-items-start">
+      {/* Contenitore del testo del commento con gestione overflow */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        {/* Testo del commento con word-break per gestire testi lunghi */}
+        <p className="mb-1" style={{ wordBreak: 'break-word' }}>{comment.comment}</p>
+        {/* Visualizzazione della valutazione con stelle */}
+        <small className="text-muted">
+          Valutazione: {'⭐'.repeat(comment.rate)}
+        </small>
+      </div>
+      {/* Pulsante per eliminare il commento */}
+      <Button 
+        variant="outline-danger" 
+        size="sm"
+        onClick={deleteComment}
+      >
+        Elimina
+      </Button>
+    </ListGroup.Item>
+  );
+};
 
-// Esporta il componente per permetterne l'utilizzo in altri componenti dell'applicazione
+// Esportazione del componente
 export default SingleComment;
