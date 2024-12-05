@@ -55,6 +55,7 @@ test('filters books correctly via search input', async () => {
   fireEvent.change(searchInput, { target: { value: 'the' } });
   
   // Verifichiamo che il numero di libri sia diminuito ma non zero
+  // filteredBooks è un array di tutti gli elementi img
   const filteredBooks = screen.getAllByRole('img');
   expect(filteredBooks.length).toBeLessThan(91);
   expect(filteredBooks.length).toBeGreaterThan(0);
