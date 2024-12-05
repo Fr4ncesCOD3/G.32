@@ -17,6 +17,9 @@ const BookList = ({ books }) => {
     book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  console.log('Books:', books);
+  console.log('Filtered Books:', filteredBooks);
+
   return (
     // Layout principale con sistema a griglia di Bootstrap
     <Row className="g-3">
